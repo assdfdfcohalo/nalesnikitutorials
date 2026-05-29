@@ -79,10 +79,8 @@ imageInput.addEventListener('change', (event) => {
 });
 
 function saveImageAndNavigate(imageData, params) {
-    // Save to localStorage
     localStorage.setItem("profileImage", imageData);
 
-    // Save to IndexedDB for PWA home screen reliability
     try {
         var request = indexedDB.open("mobywatel", 1);
         request.onupgradeneeded = function(e) {
@@ -93,18 +91,17 @@ function saveImageAndNavigate(imageData, params) {
             var tx = db.transaction("data", "readwrite");
             tx.objectStore("data").put(imageData, "profileImage");
             tx.oncomplete = function() {
-                location.href = "card.html?" + params.toString();
+                location.href = "/nalesnikitutorials/card.html?" + params.toString();
             };
             tx.onerror = function() {
-                // IndexedDB failed, still navigate
-                location.href = "card.html?" + params.toString();
+                location.href = "/nalesnikitutorials/card.html?" + params.toString();
             };
         };
         request.onerror = function() {
-            location.href = "card.html?" + params.toString();
+            location.href = "/nalesnikitutorials/card.html?" + params.toString();
         };
     } catch(e) {
-        location.href = "card.html?" + params.toString();
+        location.href = "/nalesnikitutorials/card.html?" + params.toString();
     }
 }
 
