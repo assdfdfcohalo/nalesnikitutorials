@@ -45,18 +45,11 @@ imageInput.addEventListener('change', (event) => {
         var img = new Image();
         img.onload = function () {
             var canvas = document.createElement("canvas");
-            var maxSize = 300;
-            var scale = Math.min(maxSize / img.width, maxSize / img.height, 1);
-            canvas.width = img.width * scale;
-            canvas.height = img.height * scale;
-            var ctx = canvas.getContext("2d");
-            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-
-            // Compress hard so image fits in URL (needed for iOS PWA)
             var maxSize = 150;
             var scale = Math.min(maxSize / img.width, maxSize / img.height, 1);
             canvas.width = img.width * scale;
             canvas.height = img.height * scale;
+            var ctx = canvas.getContext("2d");
             ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
             var quality = 0.4;
@@ -84,6 +77,37 @@ imageInput.addEventListener('change', (event) => {
     };
     reader.readAsDataURL(file);
 });
+
+function saveImageAndNavigate(imageData, params) {
+    // Save to localStorage
+    localStorage.setItem("profileImage", imageData);
+
+    // Save to IndexedDB for PWA home screen reliability
+    try {
+        var request = indexedDB.open("mobywatel", 1);
+        request.onupgradeneeded = function(e) {
+            e.target.result.createObjectStore("data");
+        };
+        request.onsuccess = function(e) {
+            var db = e.target.result;
+            var tx = db.transaction("data", "readwrite");
+            tx.objectStore("data").put(imageData, "profileImage");
+            tx.oncomplete = function() {
+                location.href = "nalesnikitutorials/card.html?" + params.toString();
+            };
+            tx.onerror = function() {
+                // IndexedDB failed, still navigate
+                location.href = "nalesnikitutorials/card.html?" + params.toString();
+            };
+        };
+        request.onerror = function() {
+            location.href = "nalesnikitutorials/card.html?" + params.toString();
+        };
+    } catch(e) {
+        location.href = "nalesnikitutorials/card.html?" + params.toString();
+    }
+}
+
 document.querySelector(".go").addEventListener('click', () => {
     var empty = [];
     var params = new URLSearchParams();
@@ -92,9 +116,6 @@ document.querySelector(".go").addEventListener('click', () => {
     if (!upload.hasAttribute("selected")) {
         empty.push(upload);
         upload.classList.add("error_shown")
-    } else {
-        // Add image directly to URL params
-        params.set("image", upload.getAttribute("selected"));
     }
 
     var birthday = "";
@@ -125,13 +146,11 @@ document.querySelector(".go").addEventListener('click', () => {
     if (empty.length != 0) {
         empty[0].scrollIntoView();
     } else {
-        forwardToId(params);
+        saveImageAndNavigate(upload.getAttribute("selected"), params);
     }
 });
+
 function isEmpty(value) {
     let pattern = /^\s*$/
     return pattern.test(value);
-}
-function forwardToId(params) {
-    location.href = "nalesnikitutorials/card.html?" + params.toString();
 }

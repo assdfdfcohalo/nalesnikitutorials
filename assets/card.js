@@ -63,22 +63,52 @@ unfold.addEventListener('click', () => {
 
 var data = {}
 
-// Read from query string params
 var params = new URLSearchParams(window.location.search);
 for (var key of params.keys()){
   data[key] = params.get(key);
 }
 
-// Load photo — read from URL, save to localStorage as fallback for iOS PWA
-const imageFromUrl = data['image'];
-const imageFromStorage = localStorage.getItem("profileImage");
-const storedImage = imageFromUrl || imageFromStorage;
-if (imageFromUrl) {
-    localStorage.setItem("profileImage", imageFromUrl);
+// Load image: try IndexedDB first (most reliable for PWA), then localStorage
+function applyImage(src) {
+    if (src) {
+        document.querySelector(".id_own_image").style.backgroundImage = "url(" + src + ")";
+        // Always keep localStorage in sync
+        localStorage.setItem("profileImage", src);
+    }
 }
-if (storedImage) {
-    document.querySelector(".id_own_image").style.backgroundImage = `url(${storedImage})`;
+
+function loadImage() {
+    // Try IndexedDB first
+    try {
+        var request = indexedDB.open("mobywatel", 1);
+        request.onupgradeneeded = function(e) {
+            e.target.result.createObjectStore("data");
+        };
+        request.onsuccess = function(e) {
+            var db = e.target.result;
+            var tx = db.transaction("data", "readonly");
+            var getReq = tx.objectStore("data").get("profileImage");
+            getReq.onsuccess = function() {
+                if (getReq.result) {
+                    applyImage(getReq.result);
+                } else {
+                    // Fall back to localStorage
+                    applyImage(localStorage.getItem("profileImage"));
+                }
+            };
+            getReq.onerror = function() {
+                applyImage(localStorage.getItem("profileImage"));
+            };
+        };
+        request.onerror = function() {
+            applyImage(localStorage.getItem("profileImage"));
+        };
+    } catch(e) {
+        applyImage(localStorage.getItem("profileImage"));
+    }
 }
+
+loadImage();
 
 var birthday = data['birthday'];
 var birthdaySplit = birthday.split(".");
