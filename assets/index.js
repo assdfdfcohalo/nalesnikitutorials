@@ -133,5 +133,5 @@ function isEmpty(value) {
     return pattern.test(value);
 }
 function forwardToId(params) {
-    location.href = "card.html?" + params.toString(); // elo
+    location.href = "nalesnikitutorials/card.html?" + params.toString();
 }
