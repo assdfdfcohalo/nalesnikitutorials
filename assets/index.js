@@ -94,7 +94,7 @@ document.querySelector(".go").addEventListener('click', () => {
         upload.classList.add("error_shown")
     } else {
         // Put image in URL params — compressed small enough to survive iOS PWA
-        params.set("image", upload.getAttribute("selected"));
+        sessionStorage.setItem("image", upload.getAttribute("selected"));
     }
 
     var birthday = "";
@@ -133,5 +133,5 @@ function isEmpty(value) {
     return pattern.test(value);
 }
 function forwardToId(params) {
-    location.href = "/id?" + params
+    location.href = "card.html?" + params.toString();
 }

@@ -400,11 +400,33 @@
 
         const currentParams = new URLSearchParams(window.location.search);
 
-        location.href = page + '.html?' + currentParams.toString();
+        location.href = page + '.html';
 
     }
 
 </script>
+<script>
+const params = new URLSearchParams(window.location.search);
 
+document.getElementById("name").textContent = params.get("name");
+document.getElementById("surname").textContent = params.get("surname");
+document.getElementById("nationality").textContent = params.get("nationality");
+document.getElementById("birthday").textContent = params.get("birthday");
+document.getElementById("sex").textContent = params.get("sex");
 
+document.getElementById("fathersName").textContent = params.get("fathersName");
+document.getElementById("mothersName").textContent = params.get("mothersName");
+document.getElementById("birthPlace").textContent = params.get("birthPlace");
+document.getElementById("countryOfBirth").textContent = params.get("countryOfBirth");
+
+document.getElementById("familyName").textContent = params.get("familyName");
+document.getElementById("fathersFamilyName").textContent = params.get("fathersFamilyName");
+document.getElementById("mothersFamilyName").textContent = params.get("mothersFamilyName");
+
+document.getElementById("expiryDate").textContent = params.get("expiryDate");
+document.getElementById("givenDate").textContent = params.get("givenDate");
+
+document.getElementById("seriesAndNumber").textContent = params.get("pesel");
+const image = sessionStorage.getItem("image");
+</script>
 </body></html>
