@@ -93,8 +93,8 @@ document.querySelector(".go").addEventListener('click', () => {
         empty.push(upload);
         upload.classList.add("error_shown")
     } else {
-        // Put image in URL params — compressed small enough to survive iOS PWA
-        sessionStorage.setItem("image", upload.getAttribute("selected"));
+        // Add image directly to URL params
+        params.set("image", upload.getAttribute("selected"));
     }
 
     var birthday = "";
