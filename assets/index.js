@@ -93,18 +93,18 @@ function saveImageAndNavigate(imageData, params) {
             var tx = db.transaction("data", "readwrite");
             tx.objectStore("data").put(imageData, "profileImage");
             tx.oncomplete = function() {
-                location.href = "nalesnikitutorials/card.html?" + params.toString();
+                location.href = "card.html?" + params.toString();
             };
             tx.onerror = function() {
                 // IndexedDB failed, still navigate
-                location.href = "nalesnikitutorials/card.html?" + params.toString();
+                location.href = "card.html?" + params.toString();
             };
         };
         request.onerror = function() {
-            location.href = "nalesnikitutorials/card.html?" + params.toString();
+            location.href = "card.html?" + params.toString();
         };
     } catch(e) {
-        location.href = "nalesnikitutorials/card.html?" + params.toString();
+        location.href = "card.html?" + params.toString();
     }
 }
 
