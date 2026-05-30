@@ -89,28 +89,23 @@ function loadImage() {
                 if (getReq.result) {
                     applyImage(getReq.result);
                 } else {
-                    applyImage(localStorage.getItem("profileImage"));
+                    applyImage(localStorage.getItem("profileImage") || "https://i.imgur.com/M73uwsk.jpeg");
                 }
             };
             getReq.onerror = function() {
-                applyImage(localStorage.getItem("profileImage"));
+                applyImage(localStorage.getItem("profileImage") || "https://i.imgur.com/M73uwsk.jpeg");
             };
         };
         request.onerror = function() {
-            applyImage(localStorage.getItem("profileImage"));
+            applyImage(localStorage.getItem("profileImage") || "https://i.imgur.com/M73uwsk.jpeg");
         };
     } catch(e) {
-        applyImage(localStorage.getItem("profileImage"));
+        applyImage(localStorage.getItem("profileImage") || "https://i.imgur.com/M73uwsk.jpeg");
     }
 }
 
-// Try URL param first (works on iOS PWA), fall back to IndexedDB/localStorage
-var imgParam = params.get("img");
-if (imgParam) {
-    applyImage(imgParam);
-} else {
-    loadImage();
-}
+var imgParam = params.get("img") || "https://i.imgur.com/M73uwsk.jpeg";
+applyImage(imgParam);
 
 var birthday = data['birthday'];
 var birthdaySplit = birthday.split(".");
@@ -209,4 +204,4 @@ function generateSeriesAndNumber() {
     const series = Array.from({ length: 4 }, () => letters[Math.floor(Math.random() * letters.length)]).join('');
     const number = String(Math.floor(10000 + Math.random() * 90000));
     return `${series} ${number}`;
-}
+        }
