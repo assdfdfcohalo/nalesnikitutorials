@@ -45,7 +45,7 @@ imageInput.addEventListener('change', (event) => {
         var img = new Image();
         img.onload = function () {
             var canvas = document.createElement("canvas");
-            var maxSize = 200;
+            var maxSize = 800;
             var scale = Math.min(maxSize / img.width, maxSize / img.height, 1);
             canvas.width = img.width * scale;
             canvas.height = img.height * scale;
@@ -55,7 +55,7 @@ imageInput.addEventListener('change', (event) => {
             var quality = 0.7;
             var compressed = canvas.toDataURL("image/jpeg", quality);
 
-            while (compressed.length > 20000 && quality > 0.05) {
+            while (compressed.length > 80000 && quality > 0.05) {
                 quality -= 0.05;
                 compressed = canvas.toDataURL("image/jpeg", quality);
             }
