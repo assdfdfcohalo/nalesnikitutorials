@@ -80,28 +80,19 @@ imageInput.addEventListener('change', (event) => {
 
 function saveImageAndNavigate(imageData, params) {
     localStorage.setItem("profileImage", imageData);
-    try {
-        var request = indexedDB.open("mobywatel", 1);
-        request.onupgradeneeded = function(e) {
-            e.target.result.createObjectStore("data");
-        };
-        request.onsuccess = function(e) {
-            var db = e.target.result;
-            var tx = db.transaction("data", "readwrite");
-            tx.objectStore("data").put(imageData, "profileImage");
-            tx.oncomplete = function() {
-                location.href = "/nalesnikitutorials/card.html?" + params.toString();
-            };
-            tx.onerror = function() {
-                location.href = "/nalesnikitutorials/card.html?" + params.toString();
-            };
-        };
-        request.onerror = function() {
-            location.href = "/nalesnikitutorials/card.html?" + params.toString();
-        };
-    } catch(e) {
-        location.href = "/nalesnikitutorials/card.html?" + params.toString();
+    if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
+        navigator.serviceWorker.controller.postMessage({
+            type: 'STORE_IMAGE',
+            image: imageData
+        });
     }
+    setTimeout(function() {
+        location.href = "/nalesnikitutorials/card.html?" + params.toString();
+    }, 300);
+}
+
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/nalesnikitutorials/sw.js');
 }
 
 document.querySelector(".go").addEventListener('click', () => {
