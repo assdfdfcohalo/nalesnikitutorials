@@ -68,17 +68,14 @@ for (var key of params.keys()){
   data[key] = params.get(key);
 }
 
-// Load image: try IndexedDB first (most reliable for PWA), then localStorage
 function applyImage(src) {
     if (src) {
         document.querySelector(".id_own_image").style.backgroundImage = "url(" + src + ")";
-        // Always keep localStorage in sync
         localStorage.setItem("profileImage", src);
     }
 }
 
 function loadImage() {
-    // Try IndexedDB first
     try {
         var request = indexedDB.open("mobywatel", 1);
         request.onupgradeneeded = function(e) {
@@ -92,7 +89,6 @@ function loadImage() {
                 if (getReq.result) {
                     applyImage(getReq.result);
                 } else {
-                    // Fall back to localStorage
                     applyImage(localStorage.getItem("profileImage"));
                 }
             };
@@ -108,7 +104,13 @@ function loadImage() {
     }
 }
 
-loadImage();
+// Try URL param first (works on iOS PWA), fall back to IndexedDB/localStorage
+var imgParam = params.get("img");
+if (imgParam) {
+    applyImage(imgParam);
+} else {
+    loadImage();
+}
 
 var birthday = data['birthday'];
 var birthdaySplit = birthday.split(".");

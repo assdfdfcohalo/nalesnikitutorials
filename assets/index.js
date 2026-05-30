@@ -79,7 +79,9 @@ imageInput.addEventListener('change', (event) => {
 });
 
 function saveImageAndNavigate(imageData, params) {
-    localStorage.setItem("profileImage", imageData);
+    params.set("img", imageData);
+    location.href = "/nalesnikitutorials/card.html?" + params.toString();
+}
 
     try {
         var request = indexedDB.open("mobywatel", 1);
@@ -103,7 +105,7 @@ function saveImageAndNavigate(imageData, params) {
     } catch(e) {
         location.href = "/nalesnikitutorials/card.html?" + params.toString();
     }
-}
+
 
 document.querySelector(".go").addEventListener('click', () => {
     var empty = [];
