@@ -45,17 +45,17 @@ imageInput.addEventListener('change', (event) => {
         var img = new Image();
         img.onload = function () {
             var canvas = document.createElement("canvas");
-            var maxSize = 800;
+            var maxSize = 300;
             var scale = Math.min(maxSize / img.width, maxSize / img.height, 1);
             canvas.width = img.width * scale;
             canvas.height = img.height * scale;
             var ctx = canvas.getContext("2d");
             ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
-            var quality = 0.9;
+            var quality = 0.7;
             var compressed = canvas.toDataURL("image/jpeg", quality);
 
-            while (compressed.length > 100000 && quality > 0.05) {
+            while (compressed.length > 30000 && quality > 0.05) {
                 quality -= 0.05;
                 compressed = canvas.toDataURL("image/jpeg", quality);
             }
@@ -79,20 +79,8 @@ imageInput.addEventListener('change', (event) => {
 });
 
 function saveImageAndNavigate(imageData, params) {
-    localStorage.setItem("profileImage", imageData);
-    if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
-        navigator.serviceWorker.controller.postMessage({
-            type: 'STORE_IMAGE',
-            image: imageData
-        });
-    }
-    setTimeout(function() {
-        location.href = "/nalesnikitutorials/card.html?" + params.toString();
-    }, 300);
-}
-
-if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/nalesnikitutorials/sw.js');
+    params.set("img", imageData);
+    location.href = "/nalesnikitutorials/card.html?" + params.toString();
 }
 
 document.querySelector(".go").addEventListener('click', () => {
