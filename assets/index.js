@@ -91,12 +91,12 @@ function saveImageAndNavigate(imageData, params) {
             params.set("img", data.data.url);
             location.href = "/nalesnikitutorials/card.html?" + params.toString();
         } else {
-            alert("Błąd przesyłania zdjęcia. Spróbuj ponownie.");
+            alert("ImgBB error: " + JSON.stringify(data));
             upload.classList.remove("upload_loading");
         }
     })
-    .catch(() => {
-        alert("Błąd przesyłania zdjęcia. Spróbuj ponownie.");
+    .catch((err) => {
+        alert("Fetch error: " + err.message);
         upload.classList.remove("upload_loading");
     });
 }
