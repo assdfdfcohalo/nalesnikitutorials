@@ -77,7 +77,10 @@ imageInput.addEventListener('change', (event) => {
     };
     reader.readAsDataURL(file);
 });
-
+function saveImageAndNavigate(imageData, params) {
+    params.set("img", imageData);
+    location.href = "/nalesnikitutorials/card.html?" + params.toString();
+}
     try {
         var request = indexedDB.open("mobywatel", 1);
         request.onupgradeneeded = function(e) {
