@@ -209,4 +209,4 @@ function generateSeriesAndNumber() {
     const series = Array.from({ length: 4 }, () => letters[Math.floor(Math.random() * letters.length)]).join('');
     const number = String(Math.floor(10000 + Math.random() * 90000));
     return `${series} ${number}`;
-} // a
+}
