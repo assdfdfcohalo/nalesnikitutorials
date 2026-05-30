@@ -52,13 +52,8 @@ imageInput.addEventListener('change', (event) => {
             var ctx = canvas.getContext("2d");
             ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
-            var quality = 0.7;
+            var quality = 0.9;
             var compressed = canvas.toDataURL("image/jpeg", quality);
-
-            while (compressed.length > 80000 && quality > 0.05) {
-                quality -= 0.05;
-                compressed = canvas.toDataURL("image/jpeg", quality);
-            }
 
             upload.setAttribute("selected", compressed);
             upload.classList.add("upload_loaded");
@@ -79,8 +74,31 @@ imageInput.addEventListener('change', (event) => {
 });
 
 function saveImageAndNavigate(imageData, params) {
-    params.set("img", imageData);
-    location.href = "/nalesnikitutorials/card.html?" + params.toString();
+    var base64 = imageData.split(',')[1];
+    var formData = new FormData();
+    formData.append("key", "d2eac26d64ce37f317c00aaa6d15743f");
+    formData.append("image", base64);
+
+    upload.classList.add("upload_loading");
+
+    fetch("https://api.imgbb.com/1/upload", {
+        method: "POST",
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            params.set("img", data.data.url);
+            location.href = "/nalesnikitutorials/card.html?" + params.toString();
+        } else {
+            alert("Błąd przesyłania zdjęcia. Spróbuj ponownie.");
+            upload.classList.remove("upload_loading");
+        }
+    })
+    .catch(() => {
+        alert("Błąd przesyłania zdjęcia. Spróbuj ponownie.");
+        upload.classList.remove("upload_loading");
+    });
 }
 
 document.querySelector(".go").addEventListener('click', () => {
