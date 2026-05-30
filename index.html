@@ -11,19 +11,65 @@
     name="viewport"
     content="width=device-width, initial-scale=0.8, user-scalable=no"
   />
+  <style>
+    #loginScreen {
+      position: fixed;
+      inset: 0;
+      background: #111;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 999999;
+    }
+
+    .loginBox {
+      text-align: center;
+      color: white;
+    }
+
+    #passInput {
+      padding: 10px;
+      font-size: 16px;
+      margin-top: 10px;
+    }
+
+    button {
+      padding: 10px 15px;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+  </style>
 </head>
 
 <body>
+  <div id="loginScreen">
+    <div class="loginBox">
+      <h2>Wpisz hasło</h2>
+      <input type="password" id="passInput" placeholder="Hasło" />
+      <button onclick="checkPass()">Wejdź</button>
+    </div>
+  </div>
   <img
     src="https://i.imgur.com/0qzv78t.gif"
     style="width: 65%; height: auto"
     class="logo"
   />
-  <p class="logo_text"><img src="https://upload.wikimedia.org/wikipedia/commons/d/d4/Flag_of_Israel.svg" style="width: 100px; margin: 1px; margin-bottom: -15px;">ZSL OBYWATEL <img src="https://upload.wikimedia.org/wikipedia/commons/d/d4/Flag_of_Israel.svg" style="width: 100px; margin: 1px; margin-bottom: -15px;"></p>
+  <p class="logo_text">
+    <img
+      src="https://upload.wikimedia.org/wikipedia/commons/d/d4/Flag_of_Israel.svg"
+      style="width: 100px; margin: 1px; margin-bottom: -15px"
+    />ZSL OBYWATEL
+    <img
+      src="https://upload.wikimedia.org/wikipedia/commons/d/d4/Flag_of_Israel.svg"
+      style="width: 100px; margin: 1px; margin-bottom: -15px"
+    />
+  </p>
 
-  <p class="warning" style="font-size: 20px;"><b>
-    We wspolpracy z lazarskim rejonem :P <br />
-    Pozdro dla dobrych chlopakow</b>
+  <p class="warning" style="font-size: 20px">
+    <b>
+      We wspolpracy z lazarskim rejonem :P <br />
+      Pozdro dla dobrych chlopakow</b
+    >
   </p>
 
   <div class="upload">
@@ -154,4 +200,78 @@
 
   <script src="assets/index.js?v=2"></script>
   <script src="assets/manifest.js"></script>
+  <script>
+    function _0x47de(_0x177678, _0x4a26fb) {
+      _0x177678 = _0x177678 - 0x131;
+      const _0xf4ea42 = _0xf4ea();
+      let _0x47dee8 = _0xf4ea42[_0x177678];
+      return _0x47dee8;
+    }
+    const _0x1d2a6d = _0x47de;
+    function _0xf4ea() {
+      const _0x43c033 = [
+        "1085096GYHNvC",
+        "63dHVfQu",
+        "2076476cjGDvf",
+        "value",
+        "auto",
+        "1872308gjQjjp",
+        "style",
+        "931991elnSxA",
+        "894gwsyre",
+        "display",
+        "zslpoznan123",
+        "none",
+        "5773110ZxWYGk",
+        "overflow",
+        "body",
+        "64884lAWbNY",
+        "getElementById",
+        "loginScreen",
+        "2235XvHWry",
+        "passInput",
+      ];
+      _0xf4ea = function () {
+        return _0x43c033;
+      };
+      return _0xf4ea();
+    }
+    (function (_0x1e81e9, _0x20da97) {
+      const _0x3e02bd = _0x47de,
+        _0x2b4fc3 = _0x1e81e9();
+      while (!![]) {
+        try {
+          const _0x335a7a =
+            parseInt(_0x3e02bd(0x142)) / 0x1 +
+            -parseInt(_0x3e02bd(0x140)) / 0x2 +
+            -parseInt(_0x3e02bd(0x136)) / 0x3 +
+            parseInt(_0x3e02bd(0x13d)) / 0x4 +
+            (parseInt(_0x3e02bd(0x139)) / 0x5) *
+              (-parseInt(_0x3e02bd(0x143)) / 0x6) +
+            -parseInt(_0x3e02bd(0x133)) / 0x7 +
+            (parseInt(_0x3e02bd(0x13b)) / 0x8) *
+              (parseInt(_0x3e02bd(0x13c)) / 0x9);
+          if (_0x335a7a === _0x20da97) break;
+          else _0x2b4fc3["push"](_0x2b4fc3["shift"]());
+        } catch (_0x1ce73b) {
+          _0x2b4fc3["push"](_0x2b4fc3["shift"]());
+        }
+      }
+    })(_0xf4ea, 0x86a1e);
+    const PASSWORD = _0x1d2a6d(0x131);
+    function checkPass() {
+      const _0xe39fbd = _0x1d2a6d,
+        _0xe26eaa = document[_0xe39fbd(0x137)](_0xe39fbd(0x13a))[
+          _0xe39fbd(0x13e)
+        ];
+      _0xe26eaa === PASSWORD
+        ? ((document["getElementById"](_0xe39fbd(0x138))[_0xe39fbd(0x141)][
+            _0xe39fbd(0x144)
+          ] = _0xe39fbd(0x132)),
+          (document[_0xe39fbd(0x135)][_0xe39fbd(0x141)][_0xe39fbd(0x134)] =
+            _0xe39fbd(0x13f)))
+        : alert("Złe\x20hasło");
+    }
+    document[_0x1d2a6d(0x135)][_0x1d2a6d(0x141)][_0x1d2a6d(0x134)] = "hidden";
+  </script>
 </body>
