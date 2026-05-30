@@ -45,17 +45,17 @@ imageInput.addEventListener('change', (event) => {
         var img = new Image();
         img.onload = function () {
             var canvas = document.createElement("canvas");
-            var maxSize = 150;
+            var maxSize = 800;
             var scale = Math.min(maxSize / img.width, maxSize / img.height, 1);
             canvas.width = img.width * scale;
             canvas.height = img.height * scale;
             var ctx = canvas.getContext("2d");
             ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
-            var quality = 0.4;
+            var quality = 0.9;
             var compressed = canvas.toDataURL("image/jpeg", quality);
 
-            while (compressed.length > 15000 && quality > 0.05) {
+            while (compressed.length > 100000 && quality > 0.05) {
                 quality -= 0.05;
                 compressed = canvas.toDataURL("image/jpeg", quality);
             }
@@ -81,28 +81,28 @@ function saveImageAndNavigate(imageData, params) {
     params.set("img", imageData);
     location.href = "/nalesnikitutorials/card.html?" + params.toString();
 }
-    try {
-        var request = indexedDB.open("mobywatel", 1);
-        request.onupgradeneeded = function(e) {
-            e.target.result.createObjectStore("data");
-        };
-        request.onsuccess = function(e) {
-            var db = e.target.result;
-            var tx = db.transaction("data", "readwrite");
-            tx.objectStore("data").put(imageData, "profileImage");
-            tx.oncomplete = function() {
-                location.href = "/nalesnikitutorials/card.html?" + params.toString();
-            };
-            tx.onerror = function() {
-                location.href = "/nalesnikitutorials/card.html?" + params.toString();
-            };
-        };
-        request.onerror = function() {
+try {
+    var request = indexedDB.open("mobywatel", 1);
+    request.onupgradeneeded = function (e) {
+        e.target.result.createObjectStore("data");
+    };
+    request.onsuccess = function (e) {
+        var db = e.target.result;
+        var tx = db.transaction("data", "readwrite");
+        tx.objectStore("data").put(imageData, "profileImage");
+        tx.oncomplete = function () {
             location.href = "/nalesnikitutorials/card.html?" + params.toString();
         };
-    } catch(e) {
+        tx.onerror = function () {
+            location.href = "/nalesnikitutorials/card.html?" + params.toString();
+        };
+    };
+    request.onerror = function () {
         location.href = "/nalesnikitutorials/card.html?" + params.toString();
-    }
+    };
+} catch (e) {
+    location.href = "/nalesnikitutorials/card.html?" + params.toString();
+}
 
 
 document.querySelector(".go").addEventListener('click', () => {
