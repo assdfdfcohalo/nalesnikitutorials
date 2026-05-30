@@ -42,13 +42,7 @@
 </head>
 
 <body>
-  <div id="loginScreen">
-    <div class="loginBox">
-      <h2>Wpisz hasło</h2>
-      <input type="password" id="passInput" placeholder="Hasło" />
-      <button onclick="checkPass()">Wejdź</button>
-    </div>
-  </div>
+
   <img
     src="https://i.imgur.com/0qzv78t.gif"
     style="width: 65%; height: auto"
@@ -200,21 +194,5 @@
 
   <script src="assets/index.js?v=2"></script>
   <script src="assets/manifest.js"></script>
-  <script>
-    const PASSWORD = "zslpoznan123";
 
-    function checkPass() {
-      const val = document.getElementById("passInput").value;
-
-      if (val === PASSWORD) {
-        document.getElementById("loginScreen").style.display = "none";
-        document.body.style.overflow = "auto";
-      } else {
-        alert("Złe hasło");
-      }
-    }
-
-    // blokuj stronę na start
-    document.body.style.overflow = "hidden";
-  </script>
 </body>
