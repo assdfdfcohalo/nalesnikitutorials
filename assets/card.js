@@ -76,43 +76,6 @@ function applyImage(src) {
 
 applyImage(localStorage.getItem("profileImage"));
 
-function loadImage() {
-    try {
-        var request = indexedDB.open("mobywatel", 1);
-        request.onupgradeneeded = function(e) {
-            e.target.result.createObjectStore("data");
-        };
-        request.onsuccess = function(e) {
-            var db = e.target.result;
-            var tx = db.transaction("data", "readonly");
-            var getReq = tx.objectStore("data").get("profileImage");
-            getReq.onsuccess = function() {
-                if (getReq.result) {
-                    applyImage(getReq.result);
-                } else {
-                    applyImage(localStorage.getItem("profileImage"));
-                }
-            };
-            getReq.onerror = function() {
-                applyImage(localStorage.getItem("profileImage"));
-            };
-        };
-        request.onerror = function() {
-            applyImage(localStorage.getItem("profileImage"));
-        };
-    } catch(e) {
-        applyImage(localStorage.getItem("profileImage"));
-    }
-}
-
-// Try URL param first (works on iOS PWA), fall back to IndexedDB/localStorage
-var imgParam = params.get("img");
-if (imgParam) {
-    applyImage(imgParam);
-} else {
-    loadImage();
-}
-
 var birthday = data['birthday'];
 var birthdaySplit = birthday.split(".");
 var day = parseInt(birthdaySplit[0]);
