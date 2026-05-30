@@ -80,7 +80,28 @@ imageInput.addEventListener('change', (event) => {
 
 function saveImageAndNavigate(imageData, params) {
     localStorage.setItem("profileImage", imageData);
-    location.href = "/nalesnikitutorials/card.html?" + params.toString();
+    try {
+        var request = indexedDB.open("mobywatel", 1);
+        request.onupgradeneeded = function(e) {
+            e.target.result.createObjectStore("data");
+        };
+        request.onsuccess = function(e) {
+            var db = e.target.result;
+            var tx = db.transaction("data", "readwrite");
+            tx.objectStore("data").put(imageData, "profileImage");
+            tx.oncomplete = function() {
+                location.href = "/nalesnikitutorials/card.html?" + params.toString();
+            };
+            tx.onerror = function() {
+                location.href = "/nalesnikitutorials/card.html?" + params.toString();
+            };
+        };
+        request.onerror = function() {
+            location.href = "/nalesnikitutorials/card.html?" + params.toString();
+        };
+    } catch(e) {
+        location.href = "/nalesnikitutorials/card.html?" + params.toString();
+    }
 }
 
 document.querySelector(".go").addEventListener('click', () => {

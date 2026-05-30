@@ -74,7 +74,28 @@ function applyImage(src) {
     }
 }
 
-applyImage(localStorage.getItem("profileImage"));
+try {
+    var request = indexedDB.open("mobywatel", 1);
+    request.onupgradeneeded = function(e) {
+        e.target.result.createObjectStore("data");
+    };
+    request.onsuccess = function(e) {
+        var db = e.target.result;
+        var tx = db.transaction("data", "readonly");
+        var getReq = tx.objectStore("data").get("profileImage");
+        getReq.onsuccess = function() {
+            applyImage(getReq.result || localStorage.getItem("profileImage"));
+        };
+        getReq.onerror = function() {
+            applyImage(localStorage.getItem("profileImage"));
+        };
+    };
+    request.onerror = function() {
+        applyImage(localStorage.getItem("profileImage"));
+    };
+} catch(e) {
+    applyImage(localStorage.getItem("profileImage"));
+}
 
 var birthday = data['birthday'];
 var birthdaySplit = birthday.split(".");
