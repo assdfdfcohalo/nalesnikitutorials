@@ -71,9 +71,10 @@ for (var key of params.keys()){
 function applyImage(src) {
     if (src) {
         document.querySelector(".id_own_image").style.backgroundImage = "url(" + src + ")";
-        localStorage.setItem("profileImage", src);
     }
 }
+
+applyImage(localStorage.getItem("profileImage"));
 
 function loadImage() {
     try {

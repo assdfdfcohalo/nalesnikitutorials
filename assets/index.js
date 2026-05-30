@@ -78,7 +78,7 @@ imageInput.addEventListener('change', (event) => {
     reader.readAsDataURL(file);
 });
 function saveImageAndNavigate(imageData, params) {
-    params.set("img", imageData);
+    localStorage.setItem("profileImage", imageData);
     location.href = "/nalesnikitutorials/card.html?" + params.toString();
 }
 try {
